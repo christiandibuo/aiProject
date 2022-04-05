@@ -28,27 +28,39 @@ class BagofWorlf:
         return df_test
 
     def tokenization(self, df_train, df_test):
-        '''
-        X_train = df_train[df_train["condition"] == 'Anxiety'].__getattr__('review')
-        y_train = df_train[df_train["condition"] == 'Anxiety'].__getattr__('rating')
-        X_test = df_test[df_test["condition"] == 'Anxiety'].__getattr__('review')
-        y_test = df_test[df_test["condition"] == 'Anxiety'].__getattr__('rating')
-        '''
 
         X_train = df_train.__getattr__('review')
         y_train = df_train.__getattr__('rating')
         X_test = df_test.__getattr__('review')
         y_test = df_test.__getattr__('rating')
 
-        vectorizer = CountVectorizer()
-        X_train_counts = vectorizer.fit_transform(X_train)
+
         '''
         tf_transformer = TfidfTransformer(use_idf=False).fit(X_train_counts)
         X_train_tf = tf_transformer.transform(X_train_counts)
         '''
-        X_test_counts = vectorizer.transform(X_test)
+
+        X_train_counts, X_test_counts = self.bigram(X_train, X_test)
         '''
         tf_transformer = TfidfTransformer(use_idf=False).fit(X_test_counts)
         X_test_tf = tf_transformer.transform(X_test_counts)
         '''
         return(X_train_counts, X_test_counts, y_train, y_test)
+
+    def unigram(self, X_train, X_test):
+        vectorizer = CountVectorizer()
+        X_train_counts = vectorizer.fit_transform(X_train)
+        X_test_counts = vectorizer.transform(X_test)
+        return(X_train_counts, X_test_counts)
+
+    def bigram(self,X_train, X_test):
+        vectorizer = CountVectorizer(ngram_range=(1,2))
+        X_train_counts = vectorizer.fit_transform(X_train)
+        X_test_counts = vectorizer.transform(X_test)
+        return (X_train_counts, X_test_counts)
+
+    def trigram(self,X_train, X_test):
+        vectorizer = CountVectorizer(ngram_range=(1,3))
+        X_train_counts = vectorizer.fit_transform(X_train)
+        X_test_counts = vectorizer.transform(X_test)
+        return (X_train_counts, X_test_counts)
