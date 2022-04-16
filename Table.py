@@ -11,7 +11,7 @@ class Table:
         self.ngram = ngram
         self.tf_idf = tf_idf
 
-    def table(self):
+    def accuracytable(self):
         bw = BagofWorlf('drugsComTrain.tsv', 'drugsComTest.tsv')
         df_train, df_test = bw.readingFile()
         acc = []
