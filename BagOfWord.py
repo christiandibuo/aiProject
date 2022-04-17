@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 
 
-class BagofWorlf:
+class BagofWord:
     def __init__(self, trainFilename, testFilename):
         self.trainFile = trainFilename
         self.testFile = testFilename
